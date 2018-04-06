@@ -89,11 +89,11 @@ def RestoreFromDuelList (filename):
     with open(filename, 'rb') as handle:
         duels = pickle.load(handle)
         
-    for i in range(0,(1+len(duels))):
+    for i in range(0,(len(duels))):
         AddPlayer(duels[i][0],player_ratings,player_duelcount)
         AddPlayer(duels[i][1],player_ratings,player_duelcount)
         
-    for i in range(0,(1+len(duels))):
+    for i in range(0,(len(duels))):
         Duel(duels[i][0],duels[i][1],duels[i][2],player_ratings,player_duelcount)
     
     return [player_ratings, player_duelcount]
