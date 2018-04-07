@@ -20,19 +20,19 @@ draw=0.5
 loss=0
 
 
-def LoadData():
-    with open('player_ratings.pickle', 'rb') as handle:
+def LoadData(filenameRatings = 'player_ratings.pickle', filenameDuelcount = 'player_duelcount.pickle', filenameDuels = 'duels.pickle'):
+    with open(filenameRatings, 'rb') as handle:
         player_ratings = pickle.load(handle)
     
-    with open('player_duelcount.pickle', 'rb') as handle:
+    with open(filenameDuelcount, 'rb') as handle:
         player_duelcount = pickle.load(handle)    
  
-    with open('duels.pickle', 'rb') as handle:
+    with open(filenameDuels, 'rb') as handle:
         duels = pickle.load(handle)
         
     return [player_ratings, player_duelcount, duels]
     
-def SaveData():
+def SaveData(player_ratings, player_duelcount, duels):
     with open('player_ratings.pickle', 'wb') as handle:
         pickle.dump(player_ratings, handle, protocol=pickle.HIGHEST_PROTOCOL)
     
@@ -103,9 +103,7 @@ def RestoreFromDuelList (filename):
 # In[3]:
 
 
-player_ratings = LoadData()[0]
-player_duelcount = LoadData()[1]
-duels = LoadData()[2]
+[player_ratings, player_duelcount, duels] = LoadData ()
 
 
 # In[4]:
@@ -149,5 +147,5 @@ for name in player_duelcount:
 # In[9]:
 
 
-SaveData()
+SaveData(player_ratings, player_duelcount, duels)
 
