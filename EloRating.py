@@ -7,7 +7,7 @@
 player_ratings = {}
 player_duelcount = {}
 duels=[]
-initialPlayers=["Kappa","Mycroft","FrozenLiquidity","GeoKnightV"]
+initialPlayers=["nunoi","Mycroft","Skari","GeoKnightV","Comet","Veiland","Treachable","RedeyeStorm"]
 
 
 # In[2]:
@@ -57,7 +57,14 @@ def AddPlayer(new_player,player_ratings,player_duelcount):
             player_ratings[new_player] = 1000                        
         else:    
             player_ratings[new_player] = sum(player_ratings.values())/(len(player_ratings))
-
+            
+def ChangePlayerName(oldName, newName, player_ratings, player_duelcount, duels):
+    player_ratings[newName] = player_ratings.pop(oldName)
+    player_duelcount[newName] = player_duelcount.pop(oldName)
+    for i in range(len(duels)):
+        for j in range(len(duels[i])):
+            duels[i][j] = newName if duels[i][j] == oldName else duels[i][j]
+    
 def Expect(player1,player2):
     "Gives expected probability of a win"
     return 1/(1+10**(1/400*(player_ratings[player2]-player_ratings[player1])))
@@ -89,11 +96,11 @@ def RestoreFromDuelList (filename):
     with open(filename, 'rb') as handle:
         duels = pickle.load(handle)
         
-    for i in range(0,(len(duels))):
+    for i in range(len(duels)):
         AddPlayer(duels[i][0],player_ratings,player_duelcount)
         AddPlayer(duels[i][1],player_ratings,player_duelcount)
         
-    for i in range(0,(len(duels))):
+    for i in range(len(duels)):
         Duel(duels[i][0],duels[i][1],duels[i][2],player_ratings,player_duelcount)
     
     return [player_ratings, player_duelcount]
@@ -103,7 +110,7 @@ def RestoreFromDuelList (filename):
 # In[3]:
 
 
-[player_ratings, player_duelcount, duels] = LoadData ()
+#[player_ratings, player_duelcount, duels] = LoadData ()
 
 
 # In[4]:
@@ -116,36 +123,83 @@ for name in initialPlayers:
 # In[5]:
 
 
-Duel("Mycroft","FrozenLiquidity",win,player_ratings,player_duelcount)
-Duel("GeoKnightV","Kappa",loss,player_ratings,player_duelcount)
-Duel("GeoKnightV","FrozenLiquidity",draw,player_ratings,player_duelcount)
-Duel("Kappa","Mycroft",loss,player_ratings,player_duelcount)
-Duel("FrozenLiquidity","GeoKnightV",win,player_ratings,player_duelcount)
+Duel("Mycroft","nunoi",win,player_ratings,player_duelcount)
+Duel("Mycroft","nunoi",win,player_ratings,player_duelcount)
+Duel("Mycroft","nunoi",win,player_ratings,player_duelcount)
+Duel("Mycroft","nunoi",win,player_ratings,player_duelcount)
+
+Duel("Comet","GeoKnightV",win,player_ratings,player_duelcount)
+Duel("Comet","GeoKnightV",win,player_ratings,player_duelcount)
+Duel("Comet","GeoKnightV",loss,player_ratings,player_duelcount)
+
+Duel("Veiland","Skari",win,player_ratings,player_duelcount)
+Duel("Veiland","Skari",loss,player_ratings,player_duelcount)
+Duel("Veiland","Skari",win,player_ratings,player_duelcount)
+
+Duel("Mycroft","Veiland",win,player_ratings,player_duelcount)
+Duel("Mycroft","Veiland",win,player_ratings,player_duelcount)
+
+Duel("nunoi","GeoKnightV",loss,player_ratings,player_duelcount)
+Duel("nunoi","GeoKnightV",loss,player_ratings,player_duelcount)
+Duel("nunoi","GeoKnightV",loss,player_ratings,player_duelcount)
+
+Duel("Skari","Comet",win,player_ratings,player_duelcount)
+Duel("Skari","Comet",win,player_ratings,player_duelcount)
+Duel("Skari","Comet",win,player_ratings,player_duelcount)
+
+Duel("Skari","RedeyeStorm",win,player_ratings,player_duelcount)
+Duel("Skari","RedeyeStorm",win,player_ratings,player_duelcount)
+Duel("Skari","RedeyeStorm",loss,player_ratings,player_duelcount)
+Duel("Skari","RedeyeStorm",win,player_ratings,player_duelcount)
+
+Duel("GeoKnightV","Veiland",draw,player_ratings,player_duelcount)
+Duel("GeoKnightV","Veiland",draw,player_ratings,player_duelcount)
+Duel("GeoKnightV","Veiland",win,player_ratings,player_duelcount)
+Duel("GeoKnightV","Veiland",win,player_ratings,player_duelcount)
+
+Duel("Treachable","Mycroft",loss,player_ratings,player_duelcount)
+Duel("Treachable","Mycroft",win,player_ratings,player_duelcount)
 
 
 # In[6]:
 
 
-for name in player_ratings.keys():
-    print(name,player_ratings[name])
+ChangePlayerName("Treachable", "SuperTreach", player_ratings, player_duelcount, duels)
 
 
 # In[7]:
 
 
-for name in duels:
-    print(name)
+from operator import itemgetter
+for k, v in sorted(player_ratings.items(), key=itemgetter(1)):
+    print (k, v)
 
 
 # In[8]:
+
+
+for name in duels:
+    print(name[0],name[2],name[1] )
+
+
+# In[9]:
 
 
 for name in player_duelcount:
     print(name, player_duelcount[name])
 
 
-# In[9]:
+# In[10]:
 
 
-SaveData(player_ratings, player_duelcount, duels)
+#SaveData(player_ratings, player_duelcount, duels)
+
+
+# In[11]:
+
+
+l = ['X', 'X', 52, 39, 81, 12, 'X', 62, 94]
+for i in range(len(l)):
+  l[i] = 0 if l[i] == 'X' else l[i]
+l
 
