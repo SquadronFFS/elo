@@ -194,12 +194,3 @@ for name in player_duelcount:
 
 #SaveData(player_ratings, player_duelcount, duels)
 
-
-# In[11]:
-
-
-l = ['X', 'X', 52, 39, 81, 12, 'X', 62, 94]
-for i in range(len(l)):
-  l[i] = 0 if l[i] == 'X' else l[i]
-l
-
